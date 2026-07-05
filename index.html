@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tesseract Home — User Guide · The Presidential</title>
+<meta name="description" content="The interactive user guide for Tesseract Home at The Presidential — the digital front desk for a hospitality-grade commercial tower in Bandra West, Mumbai. Includes the local-inference intelligence pipeline.">
+<!--
+  Tesseract Home — User Guide · The Presidential
+  Standalone, customer-facing, Tesseract-branded interactive document.
+  Single file: all CSS/JS inline, the mark inline as SVG. Deployed via GitHub Pages.
+  Source of truth lives in the presidential-app working folder under guide-site/
+  (its own git repo — never pushed to the app's remote).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-deep:#060D18; --navy:#0A1628; --navy-mid:#0F1D32; --navy-light:#162440; --navy-lighter:#1E3054;
+  --blue:#4A9EF5; --blue-bright:#5CB0FF; --blue-dim:#3A7CC8;
+  --green:#4CAF50; --green-bright:#66CC6A; --green-dim:#3D8B40;
+  --white:#FFFFFF; --grey-100:#E8ECF2; --grey-200:#C4CDD8; --grey-300:#8A99AE; --grey-400:#5A6B82; --grey-500:#3A4B62;
+  --border:rgba(74,158,245,0.12); --border-green:rgba(76,175,80,0.15);
+  --glow-blue:rgba(74,158,245,0.15); --glow-green:rgba(76,175,80,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{background:var(--navy-deep);color:var(--grey-100);font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:1080px;margin:0 auto;padding:0 32px}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+
+/* ---- nav ---- */
+.nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:100;display:flex;align-items:center;background:rgba(6,13,24,0.85);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);transition:box-shadow .3s}
+.nav.scrolled{background:rgba(6,13,24,0.95);box-shadow:0 8px 30px rgba(0,0,0,0.35)}
+.nav .container{display:flex;align-items:center;justify-content:space-between;width:100%;gap:18px}
+.nav-brand{display:flex;align-items:center;gap:12px;color:var(--white);text-decoration:none;flex-shrink:0}
+.nav-brand svg{width:30px;height:30px}
+.nav-brand b{font-weight:700;letter-spacing:0.08em;font-size:1.02rem;white-space:nowrap}
+.nav-links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{color:var(--grey-300);text-decoration:none;font-size:0.82rem;font-weight:500;letter-spacing:0.02em;padding:7px 12px;border-radius:8px;white-space:nowrap;transition:color .25s,background .25s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a.active{color:var(--green-bright);background:var(--navy-mid)}
+
+/* ---- cover ---- */
+.cover{min-height:96vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 70px;position:relative;overflow:hidden}
+.cover::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 62% 46% at 50% 40%,var(--glow-green),transparent 70%),radial-gradient(ellipse 40% 30% at 50% 46%,var(--glow-blue),transparent 70%);pointer-events:none}
+.cover svg.mark{width:160px;height:160px;margin-bottom:34px;animation:fadeUp .9s ease both}
+.cover .label{font-size:0.8rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--green);animation:fadeUp .9s .1s ease both}
+.cover h1{font-weight:800;font-size:clamp(2.7rem,6.5vw,4.6rem);letter-spacing:-0.03em;color:var(--white);margin:12px 0 0;line-height:1.05;animation:fadeUp .9s .18s ease both}
+.cover .guide-line{display:block;font-weight:300;color:var(--grey-300);font-size:clamp(1.5rem,3.4vw,2.4rem);letter-spacing:-0.01em;margin-top:10px}
+.cover .sub{font-size:clamp(1rem,2vw,1.18rem);color:var(--grey-200);max-width:600px;margin-top:22px;animation:fadeUp .9s .26s ease both}
+.cover .meta{margin-top:30px;font-size:0.8rem;color:var(--grey-400);letter-spacing:0.05em;animation:fadeUp .9s .34s ease both}
+.cover .cta-row{margin-top:34px;display:flex;gap:12px;flex-wrap:wrap;justify-content:center;animation:fadeUp .9s .4s ease both}
+.btn{display:inline-block;text-decoration:none;border-radius:10px;padding:13px 28px;font-size:0.92rem;font-weight:600;letter-spacing:0.02em;transition:transform .25s,box-shadow .25s}
+.btn.primary{background:linear-gradient(135deg,var(--green),var(--green-dim));color:var(--white)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px var(--glow-green)}
+.btn.ghost{border:1px solid var(--navy-lighter);color:var(--grey-200)}
+.btn.ghost:hover{transform:translateY(-2px);color:var(--white);border-color:var(--grey-500)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ---- stat strip ---- */
+.strip{border-top:1px solid var(--border);background:var(--navy);padding:34px 0}
+.strip .container{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;text-align:center}
+.strip .stat b{display:block;font-family:'JetBrains Mono',monospace;font-weight:800;font-size:2rem;color:var(--white)}
+.strip .stat b em{font-style:normal;color:var(--green-bright)}
+.strip .stat span{font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey-400)}
+
+/* ---- sections ---- */
+section.chapter{padding:88px 0;border-top:1px solid var(--border)}
+section.chapter.alt{background:var(--navy)}
+.chapter .kicker{font-size:0.78rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:10px}
+.chapter .kicker .num{font-family:'JetBrains Mono',monospace;color:var(--grey-400);letter-spacing:0.1em}
+.chapter.staff .kicker{color:var(--blue)}
+.chapter h2{font-weight:800;font-size:clamp(1.7rem,3.2vw,2.4rem);letter-spacing:-0.02em;color:var(--white);margin:10px 0 18px}
+.chapter .lede{font-size:1.05rem;color:var(--grey-200);max-width:760px;margin-bottom:32px}
+.chapter h3{font-weight:700;font-size:1.05rem;color:var(--white);margin:34px 0 10px}
+.chapter p{max-width:760px;color:var(--grey-200);margin-bottom:14px}
+.chapter p b{color:var(--grey-100)}
+.chapter .note{border-left:2px solid var(--green);background:var(--navy-mid);padding:14px 18px;border-radius:0 10px 10px 0;max-width:760px;margin:18px 0;font-size:0.92rem;color:var(--grey-200)}
+.chapter .note b{color:var(--white)}
+
+/* ---- cards & grids ---- */
+.grid{display:grid;gap:14px;margin:22px 0}
+.grid.c2{grid-template-columns:repeat(2,1fr)}
+.grid.c3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--navy-mid);border:1px solid var(--border);border-radius:14px;padding:20px 22px;transition:transform .25s ease,border-color .25s ease}
+.card:hover{transform:translateY(-3px);border-color:var(--border-green)}
+.card h4{font-weight:700;font-size:0.98rem;color:var(--white);margin-bottom:6px}
+.card p{font-size:0.9rem;color:var(--grey-300);margin:0;max-width:none}
+.card .mono{font-size:0.72rem;color:var(--green);letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:8px}
+.staff .card:hover{border-color:var(--border)}
+.staff .card .mono{color:var(--blue)}
+
+/* ---- steps ---- */
+.steps{counter-reset:step;margin:22px 0;max-width:760px}
+.step{position:relative;padding:0 0 22px 52px;counter-increment:step}
+.step::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:1px;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:0.72rem;letter-spacing:0.1em;color:var(--green);border:1px solid var(--border-green);border-radius:8px;padding:5px 7px;background:var(--navy-mid)}
+.step:not(:last-child)::after{content:"";position:absolute;left:16px;top:34px;bottom:6px;width:1px;background:var(--navy-lighter)}
+.step h4{font-weight:700;color:var(--white);font-size:0.98rem;margin-bottom:4px}
+.step p{font-size:0.92rem;color:var(--grey-300);margin:0}
+.staff .step::before{color:var(--blue);border-color:var(--border)}
+
+/* ---- tables ---- */
+table{width:100%;max-width:860px;border-collapse:collapse;margin:22px 0;font-size:0.9rem}
+th{text-align:left;font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey-400);padding:10px 14px;border-bottom:1px solid var(--navy-lighter)}
+td{padding:11px 14px;border-bottom:1px solid rgba(30,48,84,0.5);color:var(--grey-200);vertical-align:top}
+td:first-child{color:var(--white);font-weight:500;white-space:nowrap}
+tr:hover td{background:rgba(15,29,50,0.5)}
+
+/* ---- flow diagrams (SVG journeys) ---- */
+.flow{margin:26px 0;background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;padding:22px}
+.flow svg{width:100%;height:auto;display:block}
+.flow .cap{font-size:0.78rem;color:var(--grey-400);margin-top:12px;text-align:center;letter-spacing:0.04em}
+.flow text{font-family:'Inter',sans-serif}
+.flow .t-label{fill:var(--grey-100);font-size:12.5px;font-weight:600}
+.flow .t-sub{fill:#8A99AE;font-size:10px}
+.flow .t-mono{font-family:'JetBrains Mono',monospace;fill:#66CC6A;font-size:9.5px;letter-spacing:0.08em}
+.flow .t-mono.blue{fill:#5CB0FF}
+.flow .box{fill:#162440;stroke:rgba(74,158,245,0.25);stroke-width:1;rx:10}
+.flow .box.green{stroke:rgba(76,175,80,0.4)}
+.flow .wire{stroke:#1E3054;stroke-width:1.5;fill:none}
+.flow .wire.lit{stroke:#4CAF50;stroke-dasharray:5 6;animation:dashmove 1.2s linear infinite}
+@keyframes dashmove{to{stroke-dashoffset:-22}}
+
+/* ---- role explorer tabs ---- */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 0}
+.tab{border:1px solid var(--navy-lighter);background:transparent;color:var(--grey-200);border-radius:999px;padding:9px 18px;font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all .25s}
+.tab:hover{color:var(--white);border-color:var(--grey-500)}
+.tab.active{background:linear-gradient(135deg,var(--green),var(--green-dim));border-color:transparent;color:var(--white)}
+.tab-panel{background:var(--navy-mid);border:1px solid var(--border);border-radius:0 14px 14px 14px;padding:22px;margin-top:10px;display:none}
+.tab-panel.active{display:block;animation:panelIn .35s ease}
+@keyframes panelIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.tab-panel h4{color:var(--white);font-weight:700;margin-bottom:6px}
+.tab-panel p{font-size:0.92rem;color:var(--grey-300);margin-bottom:12px;max-width:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.03em;border:1px solid var(--border-green);color:var(--green-bright);border-radius:999px;padding:4px 12px}
+.chips span.blue{border-color:var(--border);color:var(--blue-bright)}
+
+/* ---- pipeline explorer ---- */
+.pipe-wrap{margin:30px 0 8px}
+.pipe{display:grid;grid-template-columns:repeat(5,1fr) ;gap:10px;position:relative}
+.pipe-node{position:relative;background:var(--navy-mid);border:1px solid var(--border);border-radius:14px;padding:16px 14px;cursor:pointer;text-align:center;transition:all .3s}
+.pipe-node:hover{transform:translateY(-3px);border-color:var(--border-green)}
+.pipe-node.active{border-color:var(--green);box-shadow:0 0 24px var(--glow-green)}
+.pipe-node.lit{border-color:var(--green-bright);box-shadow:0 0 26px var(--glow-green);transform:translateY(-3px)}
+.pipe-node .ic{width:34px;height:34px;margin:0 auto 8px;color:var(--green-bright)}
+.pipe-node h5{color:var(--white);font-size:0.85rem;font-weight:700;line-height:1.3}
+.pipe-node .where{display:block;font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey-400);margin-top:7px}
+.pipe-node .where.in{color:var(--green)}
+.pipe-detail{background:var(--navy-mid);border:1px solid var(--border);border-radius:16px;padding:24px;margin-top:14px;min-height:130px}
+.pipe-detail .mono{font-size:0.7rem;color:var(--green);letter-spacing:0.1em;text-transform:uppercase}
+.pipe-detail h4{color:var(--white);font-weight:700;font-size:1.05rem;margin:6px 0 8px}
+.pipe-detail p{color:var(--grey-300);font-size:0.93rem;margin:0;max-width:none}
+.pipe-actions{display:flex;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap}
+.pipe-play{border:none;background:linear-gradient(135deg,var(--green),var(--green-dim));color:var(--white);font-family:'Inter',sans-serif;font-weight:600;font-size:0.88rem;border-radius:10px;padding:11px 24px;cursor:pointer;transition:transform .25s,box-shadow .25s}
+.pipe-play:hover{transform:translateY(-2px);box-shadow:0 10px 26px var(--glow-green)}
+.pipe-play:disabled{opacity:0.5;cursor:default;transform:none;box-shadow:none}
+.pipe-q{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--grey-300)}
+.pipe-q em{color:var(--green-bright);font-style:normal}
+.egress{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.egress .eg{flex:1;min-width:220px;border:1px dashed var(--navy-lighter);border-radius:12px;padding:14px 16px;font-size:0.85rem;color:var(--grey-300)}
+.egress .eg b{display:block;color:var(--grey-100);font-size:0.85rem;margin-bottom:3px}
+.egress .eg .mono{font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue-bright)}
+
+/* ---- toc ---- */
+.toc{padding:72px 0;border-top:1px solid var(--border);background:var(--navy)}
+.toc h2{font-weight:800;font-size:1.5rem;color:var(--white);letter-spacing:-0.02em;margin-bottom:24px}
+.toc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.toc a{display:flex;gap:12px;align-items:baseline;text-decoration:none;background:var(--navy-mid);border:1px solid var(--border);border-radius:10px;padding:13px 16px;color:var(--grey-200);font-size:0.9rem;transition:border-color .25s,transform .25s}
+.toc a:hover{border-color:var(--border-green);transform:translateY(-2px);color:var(--white)}
+.toc a .mono{font-size:0.7rem;color:var(--green);letter-spacing:0.08em}
+.toc a.staff-link .mono{color:var(--blue)}
+.toc .toc-part{grid-column:1/-1;font-size:0.72rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--grey-400);margin-top:14px}
+
+/* ---- footer ---- */
+footer{border-top:1px solid var(--border);padding:56px 0 64px;text-align:center}
+footer .brand{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--white);font-weight:700;letter-spacing:0.08em}
+footer .brand svg{width:26px;height:26px}
+footer .tag{color:var(--grey-300);font-size:0.85rem;margin-top:8px}
+footer .fine{color:var(--grey-500);font-size:0.75rem;margin-top:20px;line-height:1.8}
+
+/* ---- reveal ---- */
+.animate-in{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+.animate-in.visible{opacity:1;transform:translateY(0)}
+
+/* ---- responsive ---- */
+@media(max-width:968px){.grid.c3{grid-template-columns:repeat(2,1fr)}.toc-grid{grid-template-columns:repeat(2,1fr)}.strip .container{grid-template-columns:repeat(2,1fr)}.pipe{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){
+  .container{padding:0 18px}
+  section.chapter{padding:60px 0}
+  .grid.c2,.grid.c3,.toc-grid{grid-template-columns:1fr}
+  table{display:block;overflow-x:auto;white-space:nowrap}
+  td{white-space:normal;min-width:140px}
+  .pipe{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){.pipe{grid-template-columns:1fr}.strip .container{grid-template-columns:1fr 1fr}}
+/* ---- print ---- */
+@media print{
+  body{background:#fff;color:#1a2333}
+  .nav{position:static;background:#fff;border-bottom:1px solid #d7dde7}
+  .nav-brand,.nav-brand b{color:#0A1628}
+  .nav-links,.cta-row{display:none}
+  .cover{min-height:auto;padding:40px 0}
+  .cover h1,.chapter h2,.chapter h3,.card h4,.step h4,.toc h2,.pipe-node h5,.pipe-detail h4,.tab-panel h4{color:#0A1628}
+  .cover .sub,.chapter p,.chapter .lede,.card p,.step p,td,.pipe-detail p,.tab-panel p{color:#33415c}
+  section.chapter,.toc,.strip{background:#fff !important;border-top:1px solid #d7dde7;padding:28px 0;page-break-inside:avoid}
+  .card,.toc a,.chapter .note,.pipe-node,.pipe-detail,.tab-panel,.flow{background:#f6f8fb;border-color:#d7dde7}
+  .animate-in{opacity:1;transform:none}
+  .tab-panel{display:block}
+  footer .brand{color:#0A1628}
+}
+</style>
+</head>
+<body id="top">
+
+<nav class="nav" id="nav">
+  <div class="container">
+    <a class="nav-brand" href="#top">
+      <svg viewBox="0 0 320 320" aria-hidden="true"><g fill="none" stroke="#4A9EF5" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><polygon points="160 28 284 100 284 220 160 292 36 220 36 100"/><line x1="160" y1="28" x2="160" y2="292"/><line x1="36" y1="100" x2="160" y2="160"/><line x1="284" y1="100" x2="160" y2="160"/><line x1="36" y1="220" x2="160" y2="160"/><line x1="284" y1="220" x2="160" y2="160"/></g><g fill="none" stroke="#66CC6A" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><polygon points="160 82 220 116 220 206 160 240 100 206 100 116"/><line x1="160" y1="82" x2="160" y2="240"/><line x1="100" y1="116" x2="160" y2="160"/><line x1="220" y1="116" x2="160" y2="160"/><line x1="100" y1="206" x2="160" y2="160"/><line x1="220" y1="206" x2="160" y2="160"/></g></svg>
+      <b>TESSERACT HOME</b>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#welcome" data-spy="welcome">The app</a>
+      <a href="#reception" data-spy="reception">Reception</a>
+      <a href="#living" data-spy="living">Living with it</a>
+      <a href="#team" data-spy="team">Building team</a>
+      <a href="#intelligence" data-spy="intelligence">Intelligence</a>
+      <a href="#contents" data-spy="contents">Contents</a>
+    </div>
+  </div>
+</nav>
+
+<header class="cover">
+  <svg class="mark" viewBox="0 0 320 320" role="img" aria-label="Tesseract">
+    <defs>
+      <filter id="gb" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="gg" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <g fill="none" stroke="#4A9EF5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" filter="url(#gb)"><polygon points="160 28 284 100 284 220 160 292 36 220 36 100"/><line x1="160" y1="28" x2="160" y2="292"/><line x1="36" y1="100" x2="160" y2="160"/><line x1="284" y1="100" x2="160" y2="160"/><line x1="36" y1="220" x2="160" y2="160"/><line x1="284" y1="220" x2="160" y2="160"/></g>
+    <g fill="none" stroke="#66CC6A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" filter="url(#gg)"><polygon points="160 82 220 116 220 206 160 240 100 206 100 116"/><line x1="160" y1="82" x2="160" y2="240"/><line x1="100" y1="116" x2="160" y2="160"/><line x1="220" y1="116" x2="160" y2="160"/><line x1="100" y1="206" x2="160" y2="160"/><line x1="220" y1="206" x2="160" y2="160"/></g>
+  </svg>
+  <div class="label">Tesseract Home</div>
+  <h1>The Presidential<span class="guide-line">the user guide</span></h1>
+  <p class="sub">Everything the building does for you, and how to ask for it — your visitors, your car, the rooftop, your bills, and a concierge that knows the house.</p>
+  <p class="meta">A Webtech Realty development · S.V. Road, Bandra West, Mumbai</p>
+  <div class="cta-row">
+    <a class="btn primary" href="#welcome">Start reading</a>
+    <a class="btn ghost" href="#intelligence">See the intelligence pipeline</a>
+  </div>
+</header>
+
+<div class="strip animate-in">
+  <div class="container">
+    <div class="stat"><b><em>1</em></b><span>app for the whole building</span></div>
+    <div class="stat"><b>8</b><span>bookable amenities</span></div>
+    <div class="stat"><b>2</b><span>taps to the common thing</span></div>
+    <div class="stat"><b><em>0</em></b><span>phone calls required</span></div>
+  </div>
+</div>
+
+<section class="chapter" id="welcome">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">01</span> The app</div>
+    <h2>The building, in your hands</h2>
+    <p class="lede">The Presidential runs like a fine hotel — a staffed lobby, a 24×7 control room, automated stacker parking with valet, a rooftop with a pool, sky lounge and pickleball court, and services on call. Tesseract Home is its digital front desk: one app where you and your team handle everything the building does, without a phone call, a WhatsApp to the manager, or a paper register.</p>
+    <div class="grid c3">
+      <div class="card"><span class="mono">One model</span><h4>Every screen, one building</h4><p>Visitors, parking, bookings, bills and requests are windows into one living model of the building — a digital twin, not separate systems stapled together.</p></div>
+      <div class="card"><span class="mono">Auditable</span><h4>Everything leaves a trail</h4><p>Every approval, pass, payment and decision records who did it and when. Trust is shown, not claimed.</p></div>
+      <div class="card"><span class="mono">Private</span><h4>Your data stays with the building</h4><p>The concierge answers from the building's own records. Nothing is sold, nothing tracked for advertising — and the intelligence is built to live in-house.</p></div>
+    </div>
+    <p><b>Two experiences, one app.</b> On a phone it's a thumb-first column with a tab bar. On a desktop browser it becomes a full application with a top navigation and wide canvas. They switch automatically and carry the same features — nothing is phone-only or desktop-only.</p>
+
+    <h3>Choose a role — see their app</h3>
+    <div class="tabs-wrap">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="unit">Unit user</button>
+        <button class="tab" data-tab="security">Security</button>
+        <button class="tab" data-tab="valet">Valet</button>
+        <button class="tab" data-tab="facilities">Facilities</button>
+        <button class="tab" data-tab="mgmt">Management</button>
+      </div>
+      <div class="tab-panel active" data-panel="unit">
+        <h4>The owner or occupant of a unit</h4>
+        <p>Opens on Reception. Sees their own unit's world and nobody else's — by architecture, not by setting.</p>
+        <div class="chips"><span>Reception</span><span>Visitors &amp; passes</span><span>Parking &amp; valet</span><span>Amenities</span><span>Bills &amp; statement</span><span>Requests</span><span>Notices</span><span>Material passes</span><span>Documents</span></div>
+      </div>
+      <div class="tab-panel" data-panel="security">
+        <h4>The gate, standing up</h4>
+        <p>Big targets, one action per card, an audit trail behind every movement.</p>
+        <div class="chips"><span class="blue">Verify &amp; scan passes</span><span class="blue">Check-in / check-out</span><span class="blue">Walk-in approvals</span><span class="blue">Material pass register</span><span class="blue">Inside now</span><span class="blue">Day log</span><span class="blue">Blocklist</span></div>
+      </div>
+      <div class="tab-panel" data-panel="valet">
+        <h4>The valet queue</h4>
+        <p>Requests in arrival order with the car, the bay and the asked-for time. Start → Ready → Handed over, nothing skipped.</p>
+        <div class="chips"><span class="blue">Drop-off queue</span><span class="blue">Retrieval queue</span><span class="blue">Guest-pool status</span></div>
+      </div>
+      <div class="tab-panel" data-panel="facilities">
+        <h4>The maintenance team's day</h4>
+        <p>Pick up unassigned work, never a colleague's. Resolve with a note — the unit reads it.</p>
+        <div class="chips"><span class="blue">My queue</span><span class="blue">Pick up → start → resolve</span><span class="blue">Service promises</span></div>
+      </div>
+      <div class="tab-panel" data-panel="mgmt">
+        <h4>The management portal</h4>
+        <p>The whole building at a glance, then every module in depth — plus an administration console for accounts.</p>
+        <div class="chips"><span class="blue">Dashboard</span><span class="blue">Broadcast notices</span><span class="blue">Requests board</span><span class="blue">Amenity admin &amp; reports</span><span class="blue">Billing &amp; CAM</span><span class="blue">Users &amp; units</span><span class="blue">Security oversight</span><span class="blue">Documents</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter alt" id="reception">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">02</span> Reception</div>
+    <h2>The concierge is the front door</h2>
+    <p class="lede">The app opens on Reception — a living, breathing mark that listens, thinks and speaks. Ask it about the building the way you'd ask a concierge at a great hotel: by voice or by typing.</p>
+    <div class="grid c2">
+      <div class="card"><span class="mono">Ask it</span><h4>What Reception knows</h4><p>Amenities and their timings, house rules, guest parking, visitor passes, directions, services — the building's community knowledge. Try "pool timings" or "how do visitor passes work".</p></div>
+      <div class="card"><span class="mono">Honesty</span><h4>What it won't do</h4><p>It never invents an answer. If the building's records don't cover your question, it says so — and offers to pass it to the building team as a tracked request, number and all.</p></div>
+      <div class="card"><span class="mono">Voice</span><h4>Speak or type</h4><p>Tap the microphone to talk; spoken questions get spoken replies. Typing always works, everywhere.</p></div>
+      <div class="card"><span class="mono">Alerts</span><h4>Critical notices greet you</h4><p>A lift shutdown, a water interruption — anything critical surfaces on Reception and Home until you've read it, then steps aside everywhere at once.</p></div>
+    </div>
+    <p>Swipe left to reach Home and the modules; Reception stays one tap away. And the intelligence behind it is engineered around a simple promise — <a href="#intelligence" style="color:var(--green-bright)">the building owns its brain</a>.</p>
+  </div>
+</section>
+
+<section class="chapter" id="living">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">03</span> Living with it</div>
+    <h2>Your first minute</h2>
+    <p class="lede">Building management invites you by phone number against your unit. The first time you open the app, the house walks you through a minute of formalities — then the doors open and Reception greets you by name.</p>
+    <div class="steps">
+      <div class="step"><h4>The welcome</h4><p>The app greets you by name and confirms your unit and your relationship to it — owner, occupant or authorised.</p></div>
+      <div class="step"><h4>Your details</h4><p>Confirm how the house should know you; add an email for invoices and receipts if you like.</p></div>
+      <div class="step"><h4>Your car — optional</h4><p>Tell the valet what to expect: plate, make, electric or not. Skippable; cars can be added any time.</p></div>
+      <div class="step"><h4>Three house courtesies</h4><p>Smoke-free save the terrace corner · deliveries via the service lift · quiet hours 10 pm to 7 am. Acknowledge, and you're in.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter alt" id="visitors">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">04</span> Living with it</div>
+    <h2>Visitors, cleared before they arrive</h2>
+    <p class="lede">Pre-authorise anyone — guest, delivery, courier, interview, contractor — and they walk in on a pass instead of waiting at the gate while someone phones you.</p>
+
+    <div class="flow">
+      <svg viewBox="0 0 980 150" role="img" aria-label="Visitor pass journey">
+        <line class="wire lit" x1="180" y1="62" x2="212" y2="62"/>
+        <line class="wire lit" x1="392" y1="62" x2="424" y2="62"/>
+        <line class="wire lit" x1="604" y1="62" x2="636" y2="62"/>
+        <line class="wire lit" x1="816" y1="62" x2="848" y2="62"/>
+        <g>
+          <rect class="box green" x="10" y="22" width="170" height="80" rx="10"/>
+          <text class="t-mono" x="26" y="44">YOU · 20 SECONDS</text>
+          <text class="t-label" x="26" y="64">Pre-authorise</text>
+          <text class="t-sub" x="26" y="82">Name, purpose, visit window,</text>
+          <text class="t-sub" x="26" y="94">guest bay if they drive</text>
+        </g>
+        <g>
+          <rect class="box" x="222" y="22" width="170" height="80" rx="10"/>
+          <text class="t-mono" x="238" y="44">THE PASS</text>
+          <text class="t-label" x="238" y="64">QR + one-time code</text>
+          <text class="t-sub" x="238" y="82">Reaches your visitor;</text>
+          <text class="t-sub" x="238" y="94">the QR never carries the code</text>
+        </g>
+        <g>
+          <rect class="box" x="434" y="22" width="170" height="80" rx="10"/>
+          <text class="t-mono" x="450" y="44">THE GATE</text>
+          <text class="t-label" x="450" y="64">Scan · verify · in</text>
+          <text class="t-sub" x="450" y="82">Window enforced, blocklist</text>
+          <text class="t-sub" x="450" y="94">re-checked at the door</text>
+        </g>
+        <g>
+          <rect class="box green" x="646" y="22" width="170" height="80" rx="10"/>
+          <text class="t-mono" x="662" y="44">LIVE · YOUR APP</text>
+          <text class="t-label" x="662" y="64">"Inside since 10:12"</text>
+          <text class="t-sub" x="662" y="82">You see the arrival the</text>
+          <text class="t-sub" x="662" y="94">moment it happens</text>
+        </g>
+        <g>
+          <rect class="box" x="858" y="22" width="112" height="80" rx="10"/>
+          <text class="t-mono" x="874" y="44">DONE</text>
+          <text class="t-label" x="874" y="64">Check-out</text>
+          <text class="t-sub" x="874" y="82">Guest bay freed</text>
+          <text class="t-sub" x="874" y="94">automatically</text>
+        </g>
+      </svg>
+      <p class="cap">The visitor journey — auditable at every hop: who cleared whom, for which unit, when.</p>
+    </div>
+
+    <div class="grid c2">
+      <div class="card"><span class="mono">Walk-ins</span><h4>You decide, quickly</h4><p>Someone arrives unannounced? Security registers them and you get an approve/decline card with a countdown. Silent past the window? Security may decide — and that override is logged as an override.</p></div>
+      <div class="card"><span class="mono">Blocklist</span><h4>Not at your door</h4><p>Add a name or number your unit won't receive; pass creation refuses instantly and the gate checks again on arrival. Your visitor log is yours alone.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="parking">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">05</span> Living with it</div>
+    <h2>Your cars, your call</h2>
+    <p class="lede">The Presidential parks with an automated stacker system and a valet team. Owned units hold allotted bays; leased units and visitors draw on a shared guest pool with live availability that never oversells.</p>
+
+    <div class="flow">
+      <svg viewBox="0 0 980 118" role="img" aria-label="Valet request lifecycle">
+        <line class="wire lit" x1="225" y1="59" x2="262" y2="59"/>
+        <line class="wire lit" x1="487" y1="59" x2="524" y2="59"/>
+        <line class="wire lit" x1="749" y1="59" x2="786" y2="59"/>
+        <g><rect class="box green" x="10" y="20" width="215" height="78" rx="10"/><text class="t-mono" x="26" y="42">TAP · RETRIEVE MY CAR</text><text class="t-label" x="26" y="62">In the valet queue</text><text class="t-sub" x="26" y="80">Add a ready-by time; cancel freely</text><text class="t-sub" x="26" y="92">while it's still queued</text></g>
+        <g><rect class="box" x="262" y="20" width="225" height="78" rx="10"/><text class="t-mono" x="278" y="42">THE STACKER MOVES</text><text class="t-label" x="278" y="62">Being retrieved</text><text class="t-sub" x="278" y="80">The desk works one clear action</text><text class="t-sub" x="278" y="92">per car — nothing skips a step</text></g>
+        <g><rect class="box green" x="524" y="20" width="225" height="78" rx="10"/><text class="t-mono" x="540" y="42">YOUR PHONE, LIVE</text><text class="t-label" x="540" y="62">Ready at the porte-cochère</text><text class="t-sub" x="540" y="80">The moment it's stamped ready,</text><text class="t-sub" x="540" y="92">you know</text></g>
+        <g><rect class="box" x="786" y="20" width="184" height="78" rx="10"/><text class="t-mono" x="802" y="42">KEYS IN HAND</text><text class="t-label" x="802" y="62">Handed over</text><text class="t-sub" x="802" y="80">On the record, with times</text></g>
+      </svg>
+      <p class="cap">One active request per car keeps the queue honest; every state change is timestamped.</p>
+    </div>
+
+    <div class="grid c2">
+      <div class="card"><span class="mono">Owners</span><h4>My bays</h4><p>Your allotted bays and which car sits where — allotments are for owned units, capped and managed with the office.</p></div>
+      <div class="card"><span class="mono">Lessees &amp; guests</span><h4>The guest pool</h4><p>A live count of free bays. Request one for yourself or a visitor, release it when done — and when the pool is full, the app says so gracefully instead of promising a bay it doesn't have.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter alt" id="amenities">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">06</span> Living with it</div>
+    <h2>The rooftop, the boardroom, the court</h2>
+    <p class="lede">Eight amenities — meeting rooms, the rooftop sky lounge, the pool, pickleball, the café's private dining and The Terrace event space. Book in seconds; the house enforces its own rules, so double-bookings simply cannot happen.</p>
+    <div class="steps">
+      <div class="step"><h4>Pick the space and the slot</h4><p>Every card shows capacity, hours, notice required and the rate if chargeable. Choose date, start, duration, guests.</p></div>
+      <div class="step"><h4>The rules engine answers</h4><p>A taken slot refuses plainly — "That slot is taken." Notice windows, opening hours, durations, blackout dates and capacity are enforced for you and everyone else alike.</p></div>
+      <div class="step"><h4>Confirmed — or sent for approval</h4><p>Most spaces confirm instantly; the sky lounge, private dining and The Terrace go to management first and come back decided.</p></div>
+      <div class="step"><h4>Charges ride to your bill</h4><p>Chargeable spaces price by the hour, pro-rata — 90 minutes of the ₹2,500/hour boardroom is ₹3,750 — and land on your monthly invoice once the booking completes. Cancel in good time and the charge clears; a late cancel keeps it, and says so.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="bills">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">07</span> Living with it</div>
+    <h2>Proper tax documents, quiet payments</h2>
+    <p class="lede">Every invoice is a real GST document — the building's GSTIN and yours, HSN/SAC per line, the CGST/SGST split, sequential immutable numbering. No screenshots of spreadsheets.</p>
+    <div class="grid c3">
+      <div class="card"><span class="mono">Invoices</span><h4>CAM, utilities, amenities</h4><p>Monthly CAM on your chargeable area, amenity charges swept in automatically, utilities and one-offs — with due dates, and "overdue" always computed live.</p></div>
+      <div class="card"><span class="mono">Pay</span><h4>Tap, confirm, receipt</h4><p>Pay from the invoice; a numbered receipt issues instantly, cross-referenced to the payment. The amount always comes from the invoice itself — never from a screen that could lie.</p></div>
+      <div class="card"><span class="mono">Statement</span><h4>Your running ledger</h4><p>Opening balance, every invoice and payment, closing balance — provably tied to what's outstanding. Offline payments recorded by the office (NEFT, cheque, UPI, cash) appear here too.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter alt" id="requests">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">08</span> Living with it</div>
+    <h2>Raise it, track it, close it yourself</h2>
+    <p class="lede">Anything the building should fix — AC, electrical, plumbing, housekeeping, the lift — goes in with photos if you like. Reception's escalations land in the same queue, so nothing you ask ever falls between systems.</p>
+    <p>Every request carries a <b>service promise</b>, shown up front:</p>
+    <table>
+      <thead><tr><th>Category</th><th>First response</th><th>Resolution</th></tr></thead>
+      <tbody>
+        <tr><td>Housekeeping</td><td>2 hours</td><td>6 hours</td></tr>
+        <tr><td>Lift</td><td>2 hours</td><td>48 hours</td></tr>
+        <tr><td>AC · electrical · plumbing · F&amp;B</td><td>4 hours</td><td>24 hours</td></tr>
+        <tr><td>IT / reprographics</td><td>8 hours</td><td>72 hours</td></tr>
+        <tr><td>General · other</td><td>8 hours</td><td>48 hours</td></tr>
+        <tr><td>Pest control</td><td>24 hours</td><td>96 hours</td></tr>
+      </tbody>
+    </table>
+    <p>The request's page tells its story in plain sentences — raised, picked up, work started, resolved with the technician's note. <b>You close it</b> when it's truly fixed, or reopen it if it isn't: the history stays, the team is told, the clock restarts. A promise missed is marked on the record permanently.</p>
+  </div>
+</section>
+
+<section class="chapter" id="notices">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">09</span> Living with it</div>
+    <h2>From the building, to exactly the right people</h2>
+    <p class="lede">Announcements, events, outages, drills — targeted, so a floor-3 recarpeting never bothers floor 9. Filter by type, mark things read as you go.</p>
+    <div class="grid c2">
+      <div class="card"><span class="mono">Targeted</span><h4>Only what's yours</h4><p>Notices address the whole building, chosen floors or chosen units. You only ever see what's addressed to you.</p></div>
+      <div class="card"><span class="mono">Critical</span><h4>Impossible to miss, easy to dismiss</h4><p>Critical notices surface on Reception and Home until acknowledged — then step aside everywhere at once.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter alt" id="my-unit">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">10</span> Living with it</div>
+    <h2>Your space, your people, your cars</h2>
+    <p class="lede">The identity page: your units and co-users, your profile, your vehicles, and material gate passes for fit-outs and moves.</p>
+    <div class="grid c2">
+      <div class="card"><span class="mono">Profile</span><h4>Yours to keep current</h4><p>Your phone number is your identity; your email is yours to change any time. Cars are added and removed in seconds — plates validated, duplicates refused. Name corrections go through management, so the register stays authoritative.</p></div>
+      <div class="card"><span class="mono">Material passes</span><h4>Fit-outs and moves, without friction</h4><p>Direction, items and quantities, when it moves, the vehicle if known. Security clears it before the movement — a decline always carries a reason you'll read — and the actual movement is logged against the register.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="documents">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">11</span> Living with it</div>
+    <h2>The vault</h2>
+    <p class="lede">Your unit's papers and the building's, versioned and in one place — with your billing paper trail filed automatically.</p>
+    <div class="grid c3">
+      <div class="card"><span class="mono">Your unit</span><h4>Unit papers</h4><p>Agreements and acknowledgements, visible to your unit alone. Download any time.</p></div>
+      <div class="card"><span class="mono">Auto-filed</span><h4>Bills &amp; receipts</h4><p>Every invoice and receipt appears here on its own, straight from Bills — one source of truth, nothing duplicated.</p></div>
+      <div class="card"><span class="mono">The building</span><h4>House papers</h4><p>House rules, emergency procedures, amenity rules — always the latest version, with earlier versions kept on record.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter alt staff" id="team">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">12</span> Building team</div>
+    <h2>The gate desk</h2>
+    <p class="lede">Built for standing use in the lobby: big targets, one clear action per card, an audit trail behind every movement. The 24×7 control room's daily companion.</p>
+    <div class="grid c2">
+      <div class="card"><span class="mono">Verify</span><h4>Scan or search</h4><p>QR scan, or the one-time code, phone or name among today's expected. Check-in enforces the code, refuses outside the visit window, and re-checks the blocklist at the door — a denial is logged.</p></div>
+      <div class="card"><span class="mono">Walk-ins</span><h4>Route to the host</h4><p>Register the walk-in; the unit decides with a countdown. After the timeout the desk may decide — recorded as an override, with the note to match.</p></div>
+      <div class="card"><span class="mono">Material</span><h4>The material register</h4><p>Clear or reject requested passes (a rejection needs a reason the unit will read), then log the movement when it happens. Every state carries who and when.</p></div>
+      <div class="card"><span class="mono">The day</span><h4>Inside now &amp; the log</h4><p>Everyone currently inside on a pass, one-tap check-out that frees their guest bay, expected arrivals, the full day log.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter staff" id="desks">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">13</span> Building team</div>
+    <h2>The valet &amp; facilities desks</h2>
+    <p class="lede">Two lean queues, each with one clear action per card and the discipline held by the system, not by memory.</p>
+    <div class="grid c2">
+      <div class="card"><span class="mono">Valet</span><h4>Start → Ready → Handed over</h4><p>The queue in arrival order with car, request type and asked-for time. No skipped states, no two active requests on one car, the ready time stamped for the record — and the guest-pool count always in view.</p></div>
+      <div class="card"><span class="mono">Facilities</span><h4>Pick up → start → resolve</h4><p>Pick up unassigned work, never a colleague's. Resolving takes a note because the unit reads it. Late resolution marks the promise breached on the record; reopened jobs return with full history and the clock running.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter alt staff" id="portal">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">14</span> Building team</div>
+    <h2>The management portal</h2>
+    <p class="lede">The building at a glance, then every module in depth. The dashboard reads the same living model the app does: who's inside, today's bookings, open requests and promise breaches, collections with the past-due slice, parking occupancy, recent notices.</p>
+    <div class="grid c2">
+      <div class="card"><span class="mono">Notices</span><h4>Compose &amp; broadcast</h4><p>Type, priority, audience of everyone / floors / units — validated against the real building. Schedule ahead, set an expiry, preview the exact card users will see, and watch read counts.</p></div>
+      <div class="card"><span class="mono">Requests</span><h4>The board &amp; the promise</h4><p>Every request by status with assign/reassign, plus promise performance: open, overdue now, via Reception, settled in 30 days, % kept within promise.</p></div>
+      <div class="card"><span class="mono">Amenities</span><h4>Approvals &amp; the report</h4><p>Approve or decline pending bookings — approval re-checks the calendar. The 30-day report reads bookings, hours, occupancy and revenue per amenity.</p></div>
+      <div class="card"><span class="mono">Billing</span><h4>The CAM run &amp; collections</h4><p>Preview the month (rate × chargeable area, finished amenity charges swept in, skips named) — then issue with sequential immutable numbering. Record offline payments; watch collections by unit and aging that tie out to the paisa.</p></div>
+      <div class="card"><span class="mono">Users &amp; units</span><h4>The registry</h4><p>Invite users by phone against a unit, set relations and primaries, manage parking allotments, read the directory by floor.</p></div>
+      <div class="card"><span class="mono">Administration</span><h4>Accounts, guarded</h4><p>Add anyone, rename, change roles, disable — with an activity log in plain sentences and guardrails that keep the register safe: nobody edits themselves, the last administrator is protected, history is never erased.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="intelligence">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">15</span> The platform</div>
+    <h2>Intelligence that lives in the building</h2>
+    <p class="lede">Tesseract Home is edge AI infrastructure for a building, packaged as the app in your hand. The plan is simple to say and rare to find: the concierge's brain runs on a Tesseract inference appliance inside the building itself — so the building's data, and yours, never has to commute. Trace a question through the pipeline.</p>
+
+    <div class="pipe-wrap">
+      <div class="pipe" role="list">
+        <div class="pipe-node active" data-node="ask" role="listitem" tabindex="0">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3a4 4 0 0 1 4 4v4a4 4 0 1 1-8 0V7a4 4 0 0 1 4-4z"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="21"/></svg>
+          <h5>You ask</h5><span class="where in">In your hand</span>
+        </div>
+        <div class="pipe-node" data-node="gate" role="listitem" tabindex="0">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9.5 12l2 2 3.5-4"/></svg>
+          <h5>The identity gate</h5><span class="where in">In the building</span>
+        </div>
+        <div class="pipe-node" data-node="twin" role="listitem" tabindex="0">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l8 4.5v9L12 20l-8-4.5v-9z"/><path d="M12 2v18M4 6.5l8 4.5 8-4.5"/></svg>
+          <h5>The digital twin</h5><span class="where in">In the building</span>
+        </div>
+        <div class="pipe-node" data-node="cortex" role="listitem" tabindex="0">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="3"/><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>
+          <h5>The Tesseract appliance</h5><span class="where in">In the building</span>
+        </div>
+        <div class="pipe-node" data-node="answer" role="listitem" tabindex="0">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16v9H9l-5 4z"/><path d="M8 10.5h8"/></svg>
+          <h5>The answer</h5><span class="where in">Back to you</span>
+        </div>
+      </div>
+      <div class="pipe-detail" id="pipeDetail">
+        <span class="mono">Step 1 · In your hand</span>
+        <h4>You ask</h4>
+        <p>Speak or type to Reception.</p>
+      </div>
+      <div class="pipe-actions">
+        <button class="pipe-play" id="pipePlay" type="button">▶ Trace a question through</button>
+        <span class="pipe-q">e.g. <em>"What do I owe this month?"</em></span>
+      </div>
+    </div>
+
+    <h3>What deliberately leaves the building — and nothing else</h3>
+    <div class="egress">
+      <div class="eg"><span class="mono">Egress 01</span><b>A payment token</b>To the payment gateway when you pay a bill — never your ledger, never the building's books.</div>
+      <div class="eg"><span class="mono">Egress 02</span><b>A phone number and a pass</b>To the messaging network so your visitor receives their QR — never your visitor history.</div>
+      <div class="eg"><span class="mono">Egress 03</span><b>Encrypted backups</b>Off-site, encrypted, restorable — because resilience is part of privacy too.</div>
+    </div>
+
+    <h3>The segregation model underneath</h3>
+    <div class="grid c3">
+      <div class="card"><span class="mono">Surfaces</span><h4>Role-scoped by construction</h4><p>Unit users, the desks and management each get their own surface; a screen you shouldn't have doesn't exist for you, and pages refuse to fetch data for the wrong role.</p></div>
+      <div class="card"><span class="mono">Isolation</span><h4>Unit isolation at the core</h4><p>Every query is filtered to the asking user's own units at the data layer itself — deny by default. One rule, one place, inherited by everything above it, the AI included.</p></div>
+      <div class="card"><span class="mono">Audit</span><h4>An actor on every write</h4><p>Approvals, decisions and payments carry their people. Intelligence added on top inherits a fully attributed history.</p></div>
+    </div>
+    <div class="note"><b>Today, honestly:</b> the shipping concierge answers from the building's community knowledge only — retrieval over the building's own records, so it can cite its sources and admit what it doesn't know. Voice can be simple speech to start. The step to a local language model on the in-house appliance changes the brain, not the rules: personal answers will only ever be read through the same identity gate you just traced.</div>
+  </div>
+</section>
+
+<section class="chapter alt" id="good-to-know">
+  <div class="container animate-in">
+    <div class="kicker"><span class="num">16</span> Good to know</div>
+    <h2>Small print, kept honest</h2>
+    <div class="grid c2">
+      <div class="card"><span class="mono">Prototype</span><h4>What's simulated today</h4><p>Sign-in uses a demo persona switcher (phone + OTP arrives with the production phase), payments settle as a simulation, and pass delivery is shown rather than sent. Each swaps for the live service without changing anything else in this guide.</p></div>
+      <div class="card"><span class="mono">Demo data</span><h4>The prototype resets</h4><p>The demo runs on representative seeded data that resets on restart — deliberate for evaluation. Production brings the building's own database, on the building's own server.</p></div>
+      <div class="card"><span class="mono">Etiquette</span><h4>The three courtesies</h4><p>Smoke-free save the designated terrace corner; deliveries and material via the service lift; quiet hours in shared areas, 10:00 pm – 7:00 am.</p></div>
+      <div class="card"><span class="mono">Help</span><h4>When something's off</h4><p>Ask Reception first — and if it can't resolve it, let it raise the request for you. A tracked number and a service promise, in under a minute.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="toc" id="contents" aria-label="Contents">
+  <div class="container animate-in">
+    <h2>Contents</h2>
+    <div class="toc-grid">
+      <div class="toc-part">Start here</div>
+      <a href="#welcome"><span class="mono">01</span> The building, in your hands</a>
+      <a href="#reception"><span class="mono">02</span> Reception — the concierge</a>
+      <a href="#living"><span class="mono">03</span> Your first minute</a>
+      <div class="toc-part">Living with it</div>
+      <a href="#visitors"><span class="mono">04</span> Visitors &amp; the gate</a>
+      <a href="#parking"><span class="mono">05</span> Parking &amp; valet</a>
+      <a href="#amenities"><span class="mono">06</span> Amenities &amp; event spaces</a>
+      <a href="#bills"><span class="mono">07</span> Bills &amp; payments</a>
+      <a href="#requests"><span class="mono">08</span> Requests</a>
+      <a href="#notices"><span class="mono">09</span> Notices</a>
+      <a href="#my-unit"><span class="mono">10</span> My unit &amp; material passes</a>
+      <a href="#documents"><span class="mono">11</span> Documents</a>
+      <div class="toc-part">The building team</div>
+      <a class="staff-link" href="#team"><span class="mono">12</span> The gate desk</a>
+      <a class="staff-link" href="#desks"><span class="mono">13</span> Valet &amp; facilities</a>
+      <a class="staff-link" href="#portal"><span class="mono">14</span> The management portal</a>
+      <div class="toc-part">The platform</div>
+      <a href="#intelligence"><span class="mono">15</span> Intelligence &amp; privacy</a>
+      <a href="#good-to-know"><span class="mono">16</span> Good to know</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="brand">
+      <svg viewBox="0 0 320 320" aria-hidden="true"><g fill="none" stroke="#4A9EF5" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"><polygon points="160 28 284 100 284 220 160 292 36 220 36 100"/><line x1="160" y1="28" x2="160" y2="292"/><line x1="36" y1="100" x2="160" y2="160"/><line x1="284" y1="100" x2="160" y2="160"/><line x1="36" y1="220" x2="160" y2="160"/><line x1="284" y1="220" x2="160" y2="160"/></g><g fill="none" stroke="#66CC6A" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"><polygon points="160 82 220 116 220 206 160 240 100 206 100 116"/><line x1="160" y1="82" x2="160" y2="240"/><line x1="100" y1="116" x2="160" y2="160"/><line x1="220" y1="116" x2="160" y2="160"/><line x1="100" y1="206" x2="160" y2="160"/><line x1="220" y1="206" x2="160" y2="160"/></g></svg>
+      TESSERACT
+    </div>
+    <p class="tag">Real Estate Intelligence · Intelligent, not just automated.</p>
+    <p class="fine">Tesseract Home at The Presidential · a Webtech Realty development · Bandra West, Mumbai<br>User guide edition 1.1 · July 2026 · describes the working prototype; details evolve with the product.</p>
+  </div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  /* reveal on scroll — with guarantees: content may never stay hidden.
+     The observer gives the polish; a short fallback timer and hash handling
+     make sure jumped-to sections are always legible. */
+  var revealAll=function(){document.querySelectorAll('.animate-in').forEach(function(el){el.classList.add('visible');});};
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+  },{threshold:0.05,rootMargin:'0px 0px -20px 0px'});
+  document.querySelectorAll('.animate-in').forEach(function(el){io.observe(el);});
+  setTimeout(revealAll,1800);
+  window.addEventListener('hashchange',revealAll);
+  if(location.hash)revealAll();
+
+  /* nav scrolled state */
+  var nav=document.getElementById('nav');
+  window.addEventListener('scroll',function(){nav.classList.toggle('scrolled',window.scrollY>50);},{passive:true});
+
+  /* scrollspy */
+  var spyLinks=document.querySelectorAll('.nav-links a[data-spy]');
+  var spyTargets=[];
+  spyLinks.forEach(function(a){var el=document.getElementById(a.getAttribute('data-spy'));if(el)spyTargets.push({a:a,el:el});});
+  function spy(){
+    var y=window.scrollY+120,current=null;
+    spyTargets.forEach(function(t){if(t.el.offsetTop<=y)current=t;});
+    spyLinks.forEach(function(a){a.classList.remove('active');});
+    if(current)current.a.classList.add('active');
+  }
+  window.addEventListener('scroll',spy,{passive:true});spy();
+
+  /* role explorer */
+  document.querySelectorAll('.tabs .tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      var group=tab.closest('.tabs-wrap');
+      group.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+      group.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});
+      tab.classList.add('active');
+      var panel=group.querySelector('.tab-panel[data-panel="'+tab.getAttribute('data-tab')+'"]');
+      if(panel)panel.classList.add('active');
+    });
+  });
+
+  /* inference pipeline explorer */
+  var PIPE={
+    ask:{k:'Step 1 · In your hand',t:'You ask',p:'Speak or type to Reception — "What do I owe this month?", "Book the boardroom at four", "Who’s inside for my unit?" The question never needs an app safari; the concierge is the front door.'},
+    gate:{k:'Step 2 · Inside the building',t:'The identity gate',p:'Before anything is looked up, the request is bound to who you are and which unit(s) are yours. Isolation is enforced at the data layer itself, deny by default — not by politely asking the AI to behave. The model can only ever be handed your slice.'},
+    twin:{k:'Step 3 · Inside the building',t:'The digital twin',p:'One living model of the building — spaces, bookings, people-flows, dues. Community knowledge (amenities, rules, hours) plus your unit’s own records, already separated by the gate. Every read and write is attributed and auditable.'},
+    cortex:{k:'Step 4 · Inside the building',t:'The Tesseract appliance',p:'A Tesseract-branded inference machine in the building’s own control room runs the language model locally. Your question and your data are processed on hardware the building owns — encrypted in transit and at rest. Cloud inference exists as a configurable option; it is never a requirement.'},
+    answer:{k:'Step 5 · Back to you',t:'The answer — spoken, cited, actioned',p:'A precise reply, read aloud if you spoke, grounded in the records it came from. If it needs the team, it becomes a tracked request with a service promise — never a dead end.'}
+  };
+  var order=['ask','gate','twin','cortex','answer'];
+  var nodes=document.querySelectorAll('.pipe-node');
+  var det=document.getElementById('pipeDetail');
+  function show(id){
+    nodes.forEach(function(n){n.classList.toggle('active',n.getAttribute('data-node')===id);});
+    var d=PIPE[id];
+    if(d&&det){det.querySelector('.mono').textContent=d.k;det.querySelector('h4').textContent=d.t;det.querySelector('p').textContent=d.p;}
+  }
+  nodes.forEach(function(n){n.addEventListener('click',function(){show(n.getAttribute('data-node'));});});
+  var playBtn=document.getElementById('pipePlay');
+  if(playBtn){playBtn.addEventListener('click',function(){
+    playBtn.disabled=true;var i=0;
+    (function step(){
+      if(i>0)nodes[i-1].classList.remove('lit');
+      if(i>=order.length){playBtn.disabled=false;return;}
+      nodes[i].classList.add('lit');show(order[i]);i++;setTimeout(step,1400);
+    })();
+  });}
+  show('ask');
+});
+</script>
+</body>
+</html>
